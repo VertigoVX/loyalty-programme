@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Purple Rewards - Loyalty Program</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #764ba2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo::before {
+            content: "⭐";
+            font-size: 28px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .points-display {
+            background: #764ba2;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .journey-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .journey-title {
+            text-align: center;
+            font-size: 36px;
+            color: #764ba2;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        .journey-path {
+            position: relative;
+            padding: 40px 0;
+            margin: 40px 0;
+        }
+
+        .path-line {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+
+        .path-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 1s ease;
+            border-radius: 2px;
+        }
+
+        .milestones {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .milestone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .milestone:hover {
+            transform: translateY(-5px);
+        }
+
+        .milestone-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            background: white;
+            border: 3px solid #e0e0e0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .milestone.completed .milestone-icon {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: #764ba2;
+            color: white;
+            box-shadow: 0 5px 20px rgba(118, 75, 162, 0.3);
+        }
+
+        .milestone.current .milestone-icon {
+            background: #ffc107;
+            border-color: #ffc107;
+            animation: pulse 2s infinite;
+            box-shadow: 0 5px 20px rgba(255, 193, 7, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .milestone-label {
+            margin-top: 10px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .milestone-points {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .tier-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .tier-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tier-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .tier-card.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .tier-badge {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            background: rgba(118, 75, 162, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .tier-card.active .tier-badge {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .tier-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .tier-requirements {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .tier-card.active .tier-requirements {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .tier-benefits {
+            list-style: none;
+            font-size: 14px;
+        }
+
+        .tier-benefits li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .tier-benefits li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+        }
+
+        .tier-card.active .tier-benefits li::before {
+            color: #fff;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(118, 75, 162, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #764ba2;
+            border: 2px solid #764ba2;
+        }
+
+        .btn-secondary:hover {
+            background: #764ba2;
+            color: white;
+        }
+
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .reward-item {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .reward-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .reward-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .reward-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .reward-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #764ba2;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Authentication Page Styles */
+        .auth-container {
+            display: none;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-container.active {
+            display: flex;
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            text-align: center;
+            animation: slideIn 0.5s ease;
+        }
+
+        .auth-logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .auth-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+
+        .auth-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-radius: 25px;
+            padding: 4px;
+            margin-bottom: 30px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .auth-tab.active {
+            background: white;
+            color: #764ba2;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #764ba2;
+        }
+
+        .form-input.error {
+            border-color: #f44336;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .auth-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .auth-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth-divider {
+            margin: 20px 0;
+            position: relative;
+            text-align: center;
+            color: #666;
+        }
+
+        .auth-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .auth-divider span {
+            background: white;
+            padding: 0 15px;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .social-btn:hover {
+            border-color: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .forgot-password {
+            color: #764ba2;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .main-content {
+            display: block;
+        }
+
+        .main-content.hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            /* Header improvements */
+            .header-content {
+                padding: 0 15px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .user-info {
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .points-display {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+
+            .btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+
+            /* Journey container improvements */
+            .journey-container {
+                padding: 20px 15px;
+                margin: 15px 0;
+            }
+
+            .journey-title {
+                font-size: 24px;
+                margin-bottom: 25px;
+            }
+            
+            .milestones {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+
+            .milestone {
+                width: 100%;
+                max-width: 200px;
+                flex-direction: row;
+                justify-content: flex-start;
+                gap: 15px;
+                padding: 15px;
+                background: rgba(255, 255, 255, 0.8);
+                border-radius: 15px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .milestone-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 30px;
+                flex-shrink: 0;
+            }
+
+            .milestone-info {
+                text-align: left;
+            }
+
+            .milestone-label {
+                font-size: 16px;
+                margin: 0;
+            }
+
+            .milestone-points {
+                font-size: 12px;
+                margin: 2px 0 0 0;
+            }
+            
+            .path-line {
+                display: none;
+            }
+
+            /* Progress bar improvements */
+            .progress-bar {
+                height: 25px;
+                margin: 15px 0;
+            }
+
+            .progress-fill {
+                font-size: 12px;
+            }
+            
+            .tier-details {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin: 25px 0;
+            }
+
+            .tier-card {
+                padding: 20px 15px;
+            }
+
+            .tier-name {
+                font-size: 18px;
+            }
+
+            .tier-requirements {
+                font-size: 13px;
+            }
+
+            .tier-benefits {
+                font-size: 13px;
+            }
+
+            /* Action buttons improvements */
+            .action-buttons {
+                flex-direction: column;
+                gap: 10px;
+                margin: 25px 0;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 12px 20px;
+            }
+
+            /* Rewards grid improvements */
+            .rewards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                margin: 20px 0;
+            }
+
+            .reward-item {
+                padding: 15px 10px;
+            }
+
+            .reward-icon {
+                font-size: 30px;
+                margin-bottom: 8px;
+            }
+
+            .reward-title {
+                font-size: 14px;
+                margin-bottom: 3px;
+            }
+
+            .reward-desc {
+                font-size: 11px;
+            }
+
+            /* Modal improvements */
+            .modal-content {
+                margin: 20px;
+                padding: 25px 20px;
+                max-width: none;
+                width: calc(100% - 40px);
+            }
+
+            .modal-title {
+                font-size: 20px;
+            }
+
+            /* Auth page improvements */
+            .auth-container {
+                padding: 15px;
+            }
+
+            .auth-card {
+                padding: 25px 20px;
+                max-width: none;
+                width: 100%;
+            }
+
+            .auth-title {
+                font-size: 24px;
+            }
+
+            .auth-subtitle {
+                font-size: 14px;
+                margin-bottom: 25px;
+            }
+
+            .auth-tabs {
+                margin-bottom: 25px;
+            }
+
+            .auth-tab {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .form-input {
+                padding: 12px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .auth-button {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            .social-login {
+                gap: 8px;
+            }
+
+            .social-btn {
+                padding: 10px;
+                font-size: 18px;
+            }
+
+            /* Notification improvements */
+            .notification {
+                right: 15px;
+                left: 15px;
+                top: 15px;
+                width: auto;
+                font-size: 14px;
+                padding: 12px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .journey-title {
+                font-size: 20px;
+            }
+
+            .milestone {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+                padding: 12px;
+            }
+
+            .milestone-info {
+                text-align: center;
+            }
+
+            .milestone-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .rewards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tier-card {
+                padding: 15px 12px;
+            }
+
+            .auth-card {
+                padding: 20px 15px;
+            }
+
+            .header-content {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .user-info {
+                justify-content: center;
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Authentication Page -->
+    <div class="auth-container active" id="authContainer">
+        <div class="auth-card">
+            <div class="auth-logo">⭐</div>
+            <h1 class="auth-title">Purple Rewards</h1>
+            <p class="auth-subtitle">Join our exclusive loyalty program</p>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
+                <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="loginEmail" required>
+                    <div class="error-message" id="loginEmailError">Please enter a valid email</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="loginPassword" required>
+                    <div class="error-message" id="loginPasswordError">Password is required</div>
+                </div>
+                
+                <button type="submit" class="auth-button">Sign In</button>
+                <a href="#" class="forgot-password" onclick="showForgotPassword()">Forgot Password?</a>
+            </form>
+
+            <!-- Signup Form -->
+            <form class="auth-form" id="signupForm">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" id="signupName" required>
+                    <div class="error-message" id="signupNameError">Name is required</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="signupEmail" required>
+                    <div class="error-message" id="signupEmailError">Please enter a valid email</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="signupPassword" required>
+                    <div class="error-message" id="signupPasswordError">Password must be at least 6 characters</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" class="form-input" id="signupConfirmPassword" required>
+                    <div class="error-message" id="signupConfirmPasswordError">Passwords don't match</div>
+                </div>
+                
+                <button type="submit" class="auth-button">Create Account</button>
+            </form>
+
+            <div class="auth-divider">
+                <span>or continue with</span>
+            </div>
+
+            <div class="social-login">
+                <button class="social-btn" onclick="socialLogin('google')" title="Continue with Google">🔍</button>
+                <button class="social-btn" onclick="socialLogin('facebook')" title="Continue with Facebook">📘</button>
+                <button class="social-btn" onclick="socialLogin('apple')" title="Continue with Apple">🍎</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content (Initially Hidden) -->
+    <div class="main-content hidden" id="mainContent">
+        <header>
+            <div class="header-content">
+                <div class="logo">Purple Rewards</div>
+                <div class="user-info">
+                    <div class="points-display" id="pointsDisplay">650 Points</div>
+                    <button class="btn btn-secondary" onclick="showProfile()">Profile</button>
+                    <button class="btn btn-secondary" onclick="logout()" style="margin-left: 10px;">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+        <div class="journey-container">
+            <h1 class="journey-title">Your Purple Rewards Journey</h1>
+            
+            <div class="journey-path">
+                <div class="path-line">
+                    <div class="path-progress" id="pathProgress" style="width: 25%"></div>
+                </div>
+                <div class="milestones">
+                    <div class="milestone completed" onclick="showTierDetails(1)">
+                        <div class="milestone-icon">⭐</div>
+                        <div class="milestone-info">
+                            <div class="milestone-label">Rookie</div>
+                            <div class="milestone-points">0 pts</div>
+                        </div>
+                    </div>
+                    <div class="milestone current" onclick="showTierDetails(2)">
+                        <div class="milestone-icon">🎯</div>
+                        <div class="milestone-info">
+                            <div class="milestone-label">Power Player</div>
+                            <div class="milestone-points">1,000 pts</div>
+                        </div>
+                    </div>
+                    <div class="milestone" onclick="showTierDetails(3)">
+                        <div class="milestone-icon">🎰</div>
+                        <div class="milestone-info">
+                            <div class="milestone-label">Spin Master</div>
+                            <div class="milestone-points">5,000 pts</div>
+                        </div>
+                    </div>
+                    <div class="milestone" onclick="showTierDetails(4)">
+                        <div class="milestone-icon">👑</div>
+                        <div class="milestone-info">
+                            <div class="milestone-label">High Roller</div>
+                            <div class="milestone-points">10,000 pts</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 65%">
+                    65% to Power Player
+                </div>
+            </div>
+
+            <div class="tier-details">
+                <div class="tier-card active">
+                    <div class="tier-badge">⭐</div>
+                    <div class="tier-name">Current Tier: Rookie</div>
+                    <div class="tier-requirements">Entry Level</div>
+                    <ul class="tier-benefits">
+                        <li>Daily free spin wheel</li>
+                        <li>2% deposit bonus</li>
+                        <li>5 free spins on signup</li>
+                        <li>Access to tournaments</li>
+                    </ul>
+                </div>
+                
+                <div class="tier-card">
+                    <div class="tier-badge">🎯</div>
+                    <div class="tier-name">Next: Power Player</div>
+                    <div class="tier-requirements">350 points to unlock</div>
+                    <ul class="tier-benefits">
+                        <li>5% weekend deposit bonus</li>
+                        <li>2% cashback on losses</li>
+                        <li>Birthday bonus</li>
+                        <li>Priority support</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="earnPoints()">Earn More Points</button>
+                <button class="btn btn-secondary" onclick="viewRewards()">View Rewards</button>
+            </div>
+
+            <h2 style="text-align: center; margin: 30px 0; color: #764ba2;">Available Rewards</h2>
+            <div class="rewards-grid">
+                <div class="reward-item">
+                    <div class="reward-icon">🎁</div>
+                    <div class="reward-title">Daily Spin</div>
+                    <div class="reward-desc">Free daily chance to win</div>
+                </div>
+                <div class="reward-item">
+                    <div class="reward-icon">💰</div>
+                    <div class="reward-title">Cashback</div>
+                    <div class="reward-desc">Get money back on losses</div>
+                </div>
+                <div class="reward-item">
+                    <div class="reward-icon">🎂</div>
+                    <div class="reward-title">Birthday Bonus</div>
+                    <div class="reward-desc">Special gift on your day</div>
+                </div>
+                <div class="reward-item">
+                    <div class="reward-icon">🏆</div>
+                    <div class="reward-title">Tournaments</div>
+                    <div class="reward-desc">Exclusive competitions</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div> <!-- End Main Content -->
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Tier Details</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User data
+        let userData = {
+            name: "User",
+            points: 650,
+            currentTier: 1,
+            targetPoints: 1000,
+            totalSpent: 1300,
+            joinDate: "2024-01-15",
+            isLoggedIn: false
+        };
+
+        // Authentication state
+        let authState = {
+            isAuthenticated: false,
+            currentUser: null
+        };
+
+        // Tier data
+        const tiers = {
+            1: {
+                name: "Rookie",
+                icon: "⭐",
+                minPoints: 0,
+                color: "#9c27b0",
+                benefits: [
+                    "Daily free spin wheel",
+                    "2% deposit bonus",
+                    "2% Cashback on losses",
+                    "5 free spins",
+                    "Entry into tournaments"
+                ],
+                notification: "Welcome to Purple Rewards! You're in!"
+            },
+            2: {
+                name: "Power Player",
+                icon: "🎯",
+                minPoints: 1000,
+                color: "#673ab7",
+                benefits: [
+                    "5% deposit bonus on weekends",
+                    "10% deposit bonus on weekends",
+                    "2% Cashback on losses",
+                    "Birthday bonus",
+                    "Entry into monthly prize draw"
+                ],
+                notification: "Congrats! You're now Tier 2 (Power Player)"
+            },
+            3: {
+                name: "Spin Master",
+                icon: "🎰",
+                minPoints: 5000,
+                color: "#3f51b5",
+                benefits: [
+                    "R50 free play or branded merchandise",
+                    "10% deposit bonus anytime",
+                    "5% cashback on losses",
+                    "Exclusive tournaments",
+                    "Personalized promotions"
+                ],
+                notification: "Amazing! You're now Tier 3 (Spin Master)"
+            },
+            4: {
+                name: "High Roller",
+                icon: "👑",
+                minPoints: 10000,
+                color: "#1976d2",
+                benefits: [
+                    "R100 Free Play or tickets",
+                    "Dedicated account manager",
+                    "10% cashback on all losses",
+                    "VIP event invites",
+                    "15% Deposit Bonus anytime"
+                ],
+                notification: "Welcome to the VIP circle!"
+            }
+        };
+
+        // Authentication Functions
+        function checkAuthState() {
+            const savedUser = localStorage.getItem('purpleRewardsUser');
+            if (savedUser) {
+                const user = JSON.parse(savedUser);
+                authState.isAuthenticated = true;
+                authState.currentUser = user;
+                userData.name = user.name;
+                userData.isLoggedIn = true;
+                showMainContent();
+            } else {
+                showAuthPage();
+            }
+        }
+
+        function switchAuthTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.auth-tab').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[onclick="switchAuthTab('${tab}')"]`).classList.add('active');
+            
+            // Update forms
+            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+            document.getElementById(tab + 'Form').classList.add('active');
+            
+            // Clear any error messages
+            clearAuthErrors();
+        }
+
+        function clearAuthErrors() {
+            document.querySelectorAll('.error-message').forEach(msg => msg.classList.remove('show'));
+            document.querySelectorAll('.form-input').forEach(input => input.classList.remove('error'));
+        }
+
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function validateForm(formType) {
+            let isValid = true;
+            clearAuthErrors();
+
+            if (formType === 'login') {
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                // DEMO MODE: More lenient validation - just check if fields are not empty
+                if (!email.trim()) {
+                    showFieldError('loginEmail', 'loginEmailError');
+                    document.getElementById('loginEmailError').textContent = 'Please enter an email';
+                    isValid = false;
+                }
+
+                if (!password.trim()) {
+                    showFieldError('loginPassword', 'loginPasswordError');
+                    document.getElementById('loginPasswordError').textContent = 'Please enter a password';
+                    isValid = false;
+                }
+            } else if (formType === 'signup') {
+                const name = document.getElementById('signupName').value;
+                const email = document.getElementById('signupEmail').value;
+                const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+                // DEMO MODE: More lenient validation
+                if (!name.trim()) {
+                    showFieldError('signupName', 'signupNameError');
+                    isValid = false;
+                }
+
+                if (!email.trim()) {
+                    showFieldError('signupEmail', 'signupEmailError');
+                    document.getElementById('signupEmailError').textContent = 'Please enter an email';
+                    isValid = false;
+                }
+
+                if (!password.trim()) {
+                    showFieldError('signupPassword', 'signupPasswordError');
+                    document.getElementById('signupPasswordError').textContent = 'Please enter a password';
+                    isValid = false;
+                }
+
+                if (password.trim() && confirmPassword.trim() && password !== confirmPassword) {
+                    showFieldError('signupConfirmPassword', 'signupConfirmPasswordError');
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
+        function showFieldError(fieldId, errorId) {
+            document.getElementById(fieldId).classList.add('error');
+            document.getElementById(errorId).classList.add('show');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            if (!validateForm('login')) {
+                return;
+            }
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Simulate login process
+            const button = event.target.querySelector('.auth-button');
+            button.disabled = true;
+            button.textContent = 'Signing In...';
+
+            setTimeout(() => {
+                // DEMO MODE: Accept any credentials and create/login user
+                const existingUsers = JSON.parse(localStorage.getItem('purpleRewardsUsers') || '[]');
+                let user = existingUsers.find(u => u.email === email);
+
+                if (!user) {
+                    // Create a demo user if doesn't exist
+                    const userName = email.split('@')[0]; // Use email prefix as name
+                    user = {
+                        id: Date.now(),
+                        name: userName.charAt(0).toUpperCase() + userName.slice(1), // Capitalize first letter
+                        email: email,
+                        password: password,
+                        joinDate: new Date().toISOString().split('T')[0],
+                        points: 650, // Demo points
+                        currentTier: 1
+                    };
+                    
+                    existingUsers.push(user);
+                    localStorage.setItem('purpleRewardsUsers', JSON.stringify(existingUsers));
+                }
+
+                // Always successful login in demo mode
+                authState.isAuthenticated = true;
+                authState.currentUser = user;
+                userData.name = user.name;
+                userData.points = user.points;
+                userData.currentTier = user.currentTier;
+                userData.joinDate = user.joinDate;
+                userData.isLoggedIn = true;
+                
+                localStorage.setItem('purpleRewardsUser', JSON.stringify(user));
+                showNotification(`Welcome back, ${user.name}! 🎉`);
+                showMainContent();
+            }, 800);
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            if (!validateForm('signup')) {
+                return;
+            }
+
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+
+            const button = event.target.querySelector('.auth-button');
+            button.disabled = true;
+            button.textContent = 'Creating Account...';
+
+            setTimeout(() => {
+                // DEMO MODE: Always create account successfully
+                const existingUsers = JSON.parse(localStorage.getItem('purpleRewardsUsers') || '[]');
+                
+                // Check if user exists and update, or create new
+                let user = existingUsers.find(u => u.email === email);
+                
+                if (user) {
+                    // Update existing user's name if different
+                    user.name = name;
+                } else {
+                    // Create new demo user with some starter points
+                    user = {
+                        id: Date.now(),
+                        name: name,
+                        email: email,
+                        password: password,
+                        joinDate: new Date().toISOString().split('T')[0],
+                        points: 150, // Give new users some starter points for demo
+                        currentTier: 1
+                    };
+                    existingUsers.push(user);
+                }
+
+                // Save to localStorage
+                localStorage.setItem('purpleRewardsUsers', JSON.stringify(existingUsers));
+                localStorage.setItem('purpleRewardsUser', JSON.stringify(user));
+
+                // Update app state
+                authState.isAuthenticated = true;
+                authState.currentUser = user;
+                userData.name = user.name;
+                userData.points = user.points;
+                userData.currentTier = user.currentTier;
+                userData.joinDate = user.joinDate;
+                userData.isLoggedIn = true;
+
+                showNotification(`Welcome to Purple Rewards, ${user.name}! 🎉`);
+                showMainContent();
+            }, 800);
+        }
+
+        function socialLogin(provider) {
+            // DEMO MODE: Simulate social login
+            const demoUser = {
+                id: Date.now(),
+                name: `Demo User (${provider})`,
+                email: `demo@${provider.toLowerCase()}.com`,
+                password: 'demo123',
+                joinDate: new Date().toISOString().split('T')[0],
+                points: 425, // Demo points
+                currentTier: 1
+            };
+
+            // Save demo user
+            const existingUsers = JSON.parse(localStorage.getItem('purpleRewardsUsers') || '[]');
+            const userIndex = existingUsers.findIndex(u => u.email === demoUser.email);
+            
+            if (userIndex >= 0) {
+                existingUsers[userIndex] = demoUser;
+            } else {
+                existingUsers.push(demoUser);
+            }
+            
+            localStorage.setItem('purpleRewardsUsers', JSON.stringify(existingUsers));
+            localStorage.setItem('purpleRewardsUser', JSON.stringify(demoUser));
+
+            // Update app state
+            authState.isAuthenticated = true;
+            authState.currentUser = demoUser;
+            userData.name = demoUser.name;
+            userData.points = demoUser.points;
+            userData.currentTier = demoUser.currentTier;
+            userData.joinDate = demoUser.joinDate;
+            userData.isLoggedIn = true;
+
+            showNotification(`Welcome ${demoUser.name}! 🎉`);
+            showMainContent();
+        }
+
+        function showForgotPassword() {
+            showNotification('Password reset will be available soon! 📧');
+        }
+
+        function showAuthPage() {
+            document.getElementById('authContainer').classList.add('active');
+            document.getElementById('mainContent').classList.add('hidden');
+        }
+
+        function showMainContent() {
+            document.getElementById('authContainer').classList.remove('active');
+            document.getElementById('mainContent').classList.remove('hidden');
+            updateUserDisplay();
+        }
+
+        function updateUserDisplay() {
+            if (authState.currentUser) {
+                document.getElementById('pointsDisplay').textContent = `${userData.points} Points`;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('purpleRewardsUser');
+            authState.isAuthenticated = false;
+            authState.currentUser = null;
+            userData.isLoggedIn = false;
+            
+            // Reset forms
+            document.querySelectorAll('.auth-form').forEach(form => form.reset());
+            clearAuthErrors();
+            
+            showNotification('You have been logged out successfully! 👋');
+            showAuthPage();
+        }
+
+        // Add event listeners for forms
+        document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        document.getElementById('signupForm').addEventListener('submit', handleSignup);
+
+        // Initialize
+        checkAuthState();
+        updateProgress();
+
+        function updateProgress() {
+            const progress = (userData.points / userData.targetPoints) * 100;
+            document.getElementById('progressFill').style.width = `${Math.min(progress, 100)}%`;
+            document.getElementById('progressFill').textContent = 
+                `${Math.round(progress)}% to ${tiers[userData.currentTier + 1]?.name || 'Max Level'}`;
+            
+            // Update journey path progress
+            const pathProgress = (userData.currentTier - 1) * 33.33 + (progress / 100 * 33.33);
+            document.getElementById('pathProgress').style.width = `${pathProgress}%`;
+        }
+
+        function showTierDetails(tierId) {
+            const tier = tiers[tierId];
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = `Tier ${tierId}: ${tier.name}`;
+            
+            modalBody.innerHTML = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-size: 60px; margin-bottom: 10px;">${tier.icon}</div>
+                    <p style="color: #666;">Minimum ${tier.minPoints} points required</p>
+                </div>
+                <h3 style="margin-bottom: 15px; color: #764ba2;">Benefits:</h3>
+                <ul style="list-style: none; padding: 0;">
+                    ${tier.benefits.map(benefit => 
+                        `<li style="padding: 8px 0; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0; color: #4caf50;">✓</span>
+                            ${benefit}
+                        </li>`
+                    ).join('')}
+                </ul>
+                ${tierId > userData.currentTier ? 
+                    `<div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 10px; text-align: center;">
+                        <strong>${tier.minPoints - userData.points}</strong> more points needed to unlock this tier
+                    </div>` : 
+                    tierId === userData.currentTier ? 
+                    '<div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px; text-align: center; color: #4caf50;">✓ This is your current tier</div>' :
+                    '<div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px; text-align: center; color: #4caf50;">✓ Tier unlocked</div>'
+                }
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function showProfile() {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = 'My Profile';
+            
+            modalBody.innerHTML = `
+                <div style="padding: 20px;">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea, #764ba2); 
+                                    border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; 
+                                    justify-content: center; color: white; font-size: 36px;">
+                            👤
+                        </div>
+                        <h3>${authState.currentUser ? authState.currentUser.name : userData.name}</h3>
+                        <p style="color: #666;">Member since ${new Date(userData.joinDate).toLocaleDateString()}</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div style="background: #f5f5f5; padding: 15px; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #764ba2;">${userData.points}</div>
+                            <div style="color: #666; font-size: 14px;">Current Points</div>
+                        </div>
+                        <div style="background: #f5f5f5; padding: 15px; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #764ba2;">${tiers[userData.currentTier].icon}</div>
+                            <div style="color: #666; font-size: 14px;">${tiers[userData.currentTier].name}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="margin-bottom: 10px;">Progress to Next Tier</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${(userData.points / userData.targetPoints) * 100}%">
+                                ${userData.targetPoints - userData.points} pts to go
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <button class="btn btn-primary" style="width: 100%;" onclick="closeModal()">Close</button>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function earnPoints() {
+            // Simulate earning points
+            const pointsEarned = Math.floor(Math.random() * 50) + 10;
+            userData.points += pointsEarned;
+            
+            // Update display
+            document.querySelector('.points-display').textContent = `${userData.points} Points`;
+            
+            // Check for tier upgrade
+            checkTierUpgrade();
+            
+            // Update progress
+            updateProgress();
+            
+            // Show notification
+            showNotification(`+${pointsEarned} Points Earned! 🎉`);
+        }
+
+        function checkTierUpgrade() {
+            for (let tierId = 4; tierId > userData.currentTier; tierId--) {
+                if (userData.points >= tiers[tierId].minPoints) {
+                    userData.currentTier = tierId;
+                    userData.targetPoints = tiers[tierId + 1]?.minPoints || 20000;
+                    showNotification(tiers[tierId].notification + ' 🎊');
+                    updateMilestones();
+                    break;
+                }
+            }
+        }
+
+        function updateMilestones() {
+            const milestones = document.querySelectorAll('.milestone');
+            milestones.forEach((milestone, index) => {
+                milestone.classList.remove('completed', 'current');
+                if (index < userData.currentTier) {
+                    milestone.classList.add('completed');
+                } else if (index === userData.currentTier) {
+                    milestone.classList.add('current');
+                }
+            });
+        }
+
+        function viewRewards() {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = 'Available Rewards';
+            
+            modalBody.innerHTML = `
+                <div style="padding: 20px;">
+                    <div style="display: grid; gap: 15px;">
+                        <div style="border: 1px solid #e0e0e0; padding: 15px; border-radius: 10px; cursor: pointer;"
+                             onclick="claimReward('spin')">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div style="font-size: 24px;">🎁</div>
+                                    <strong>Daily Free Spin</strong>
+                                    <p style="color: #666; font-size: 14px; margin: 5px 0;">Spin the wheel for prizes</p>
+                                </div>
+                                <button class="btn btn-primary">Claim</button>
+                            </div>
+                        </div>
+                        
+                        <div style="border: 1px solid #e0e0e0; padding: 15px; border-radius: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div style="font-size: 24px;">💰</div>
+                                    <strong>Cashback Bonus</strong>
+                                    <p style="color: #666; font-size: 14px; margin: 5px 0;">2% back on losses</p>
+                                </div>
+                                <span style="color: #4caf50;">Active</span>
+                            </div>
+                        </div>
+                        
+                        <div style="border: 1px solid #e0e0e0; padding: 15px; border-radius: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div style="font-size: 24px;">🏆</div>
+                                    <strong>Tournament Entry</strong>
+                                    <p style="color: #666; font-size: 14px; margin: 5px 0;">Join exclusive competitions</p>
+                                </div>
+                                <button class="btn btn-secondary">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function claimReward(type) {
+            if (type === 'spin') {
+                showNotification('Daily spin claimed! Good luck! 🍀');
+                closeModal();
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+                z-index: 2000;
+                animation: slideIn 0.3s ease;
+                font-weight: 600;
+                color: #764ba2;
+                max-width: 300px;
+                word-wrap: break-word;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Close modal on background click
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeModal();
+            }
+        });
+
+        // Add animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideOut {
+                to {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

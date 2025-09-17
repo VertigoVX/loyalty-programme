@@ -1444,6 +1444,441 @@
                 min-width: calc(50% - 5px);
             }
         }
+
+        /* Slots Tournament Styles */
+        .slots-tournament-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .slots-tournament-overlay.active {
+            display: flex;
+        }
+
+        .slots-tournament-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        .slots-tournament-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .tournament-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .tournament-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .tournament-target {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #ffc107;
+        }
+
+        .tournament-prize {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .tournament-status {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .slot-machine {
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+        }
+
+        .slot-machine:hover {
+            border-color: #764ba2;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(118, 75, 162, 0.2);
+        }
+
+        .slot-machine.selected {
+            border-color: #764ba2;
+            background: linear-gradient(145deg, rgba(118, 75, 162, 0.1), rgba(102, 126, 234, 0.1));
+            box-shadow: 0 5px 20px rgba(118, 75, 162, 0.3);
+        }
+
+        .slot-machine.playing {
+            border-color: #ffc107;
+            background: linear-gradient(145deg, rgba(255, 193, 7, 0.1), rgba(255, 152, 0, 0.1));
+            animation: pulse 2s infinite;
+        }
+
+        .slot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .slot-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .slot-icon {
+            font-size: 24px;
+        }
+
+        .slot-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 8px;
+            background: rgba(118, 75, 162, 0.1);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #764ba2;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .slot-progress {
+            margin-bottom: 15px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar-slot {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill-slot {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .leaderboard {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .leaderboard-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .leaderboard-item.current-user {
+            background: linear-gradient(135deg, rgba(118, 75, 162, 0.1), rgba(102, 126, 234, 0.1));
+            border: 2px solid #764ba2;
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .player-rank {
+            background: #764ba2;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .player-rank.gold {
+            background: #ffd700;
+            color: #333;
+        }
+
+        .player-rank.silver {
+            background: #c0c0c0;
+            color: #333;
+        }
+
+        .player-rank.bronze {
+            background: #cd7f32;
+            color: white;
+        }
+
+        .player-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .player-points {
+            font-weight: bold;
+            color: #764ba2;
+        }
+
+        .tournament-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .join-tournament-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .join-tournament-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(118, 75, 162, 0.3);
+        }
+
+        .join-tournament-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .leave-tournament-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .leave-tournament-btn:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        .close-slots-tournament {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .spin-controls {
+            display: none;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .spin-controls.active {
+            display: block;
+        }
+
+        .spin-controls-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .spin-amount {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .spin-amount label {
+            font-weight: bold;
+            color: #333;
+            min-width: 80px;
+        }
+
+        .spin-input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .spin-input:focus {
+            outline: none;
+            border-color: #764ba2;
+        }
+
+        .spin-quick-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .spin-quick {
+            flex: 1;
+            padding: 8px 12px;
+            border: 2px solid #764ba2;
+            background: white;
+            color: #764ba2;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .spin-quick:hover {
+            background: #764ba2;
+            color: white;
+        }
+
+        .spin-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .spin-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(118, 75, 162, 0.3);
+        }
+
+        .spin-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @media (max-width: 768px) {
+            .slots-tournament-container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            .slots-tournament-title {
+                font-size: 24px;
+            }
+
+            .slots-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .tournament-actions {
+                flex-direction: column;
+            }
+
+            .spin-quick-buttons {
+                flex-wrap: wrap;
+            }
+
+            .spin-quick {
+                min-width: calc(50% - 5px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -1705,6 +2140,63 @@
 
                 <button class="place-bet-button" id="placeBetButton" onclick="placeBet()" disabled>
                     🎯 Place Bet
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slots Tournament Overlay -->
+    <div class="slots-tournament-overlay" id="slotsTournamentOverlay">
+        <div class="slots-tournament-container">
+            <button class="close-slots-tournament" onclick="closeSlotsTournament()">&times;</button>
+            <h2 class="slots-tournament-title">🎰 Slots Tournament</h2>
+            
+            <div class="tournament-info">
+                <div class="tournament-title">Race to 10,000 Points!</div>
+                <div class="tournament-target">🎯 Target: 10,000 Points</div>
+                <div class="tournament-prize">🏆 Winner gets 2,500 bonus points!</div>
+                <div class="tournament-status" id="tournamentStatus">
+                    <span id="participantCount">12</span> players competing • <span id="timeRemaining">2h 45m remaining</span>
+                </div>
+            </div>
+
+            <div class="leaderboard" id="leaderboard">
+                <div class="leaderboard-title">🏆 Current Leaderboard</div>
+                <div id="leaderboardList">
+                    <!-- Leaderboard items will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="slots-grid" id="slotsGrid">
+                <!-- Slot machines will be populated by JavaScript -->
+            </div>
+
+            <div class="spin-controls" id="spinControls">
+                <div class="spin-controls-title">🎰 Spin Controls</div>
+                
+                <div class="spin-amount">
+                    <label>Bet Amount:</label>
+                    <input type="number" class="spin-input" id="spinInput" placeholder="Enter points" min="5" max="100">
+                </div>
+                
+                <div class="spin-quick-buttons">
+                    <button class="spin-quick" onclick="setSpinAmount(5)">5</button>
+                    <button class="spin-quick" onclick="setSpinAmount(10)">10</button>
+                    <button class="spin-quick" onclick="setSpinAmount(25)">25</button>
+                    <button class="spin-quick" onclick="setSpinAmount(50)">50</button>
+                </div>
+
+                <button class="spin-button" id="spinSlotButton" onclick="spinSlotMachine()" disabled>
+                    🎰 SPIN TO WIN!
+                </button>
+            </div>
+
+            <div class="tournament-actions">
+                <button class="join-tournament-btn" id="joinTournamentBtn" onclick="joinSlotsTournament()">
+                    🎯 Join Tournament
+                </button>
+                <button class="leave-tournament-btn" id="leaveTournamentBtn" onclick="leaveSlotsTournament()" style="display: none;">
+                    🚪 Leave Tournament
                 </button>
             </div>
         </div>
@@ -2259,11 +2751,22 @@
                         <div style="border: 1px solid #e0e0e0; padding: 15px; border-radius: 10px;">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <div>
-                                    <div style="font-size: 24px;">🏆</div>
-                                    <strong>Tournament Entry</strong>
-                                    <p style="color: #666; font-size: 14px; margin: 5px 0;">Join exclusive competitions</p>
+                                    <div style="font-size: 24px;">🏇</div>
+                                    <strong>Horse Racing</strong>
+                                    <p style="color: #666; font-size: 14px; margin: 5px 0;">Bet on horses and win big</p>
                                 </div>
-                                <button class="btn btn-secondary" onclick="showHorseRacing()">View</button>
+                                <button class="btn btn-secondary" onclick="showHorseRacing()">Join</button>
+                            </div>
+                        </div>
+                        
+                        <div style="border: 1px solid #e0e0e0; padding: 15px; border-radius: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div style="font-size: 24px;">🎰</div>
+                                    <strong>Slots Tournament</strong>
+                                    <p style="color: #666; font-size: 14px; margin: 5px 0;">Race to 10,000 points to win!</p>
+                                </div>
+                                <button class="btn btn-secondary" onclick="showSlotsTournament()">Join</button>
                             </div>
                         </div>
                     </div>
@@ -2637,11 +3140,347 @@
             });
         }
 
+        // Slots Tournament functionality
+        let slotsTournamentState = {
+            isJoined: false,
+            selectedSlot: null,
+            tournamentPoints: 0,
+            targetPoints: 10000,
+            timeRemaining: 9900, // 2h 45m in seconds
+            participants: []
+        };
+
+        const slotMachines = [
+            { id: 1, name: "Hot Hot Hollywoodbets", icon: "🔥", rtp: 96.5, volatility: "High", minBet: 5, maxBet: 100, multipliers: [1, 2, 5, 10, 25, 50, 100, 250] },
+            { id: 2, name: "Sweet Bonanza", icon: "🍭", rtp: 96.2, volatility: "Medium", minBet: 5, maxBet: 100, multipliers: [1, 2, 3, 8, 15, 30, 75, 200] },
+            { id: 3, name: "Sahara Riches", icon: "🏜️", rtp: 95.8, volatility: "Medium", minBet: 5, maxBet: 100, multipliers: [1, 2, 4, 6, 12, 25, 60, 150] },
+            { id: 4, name: "African Fortune", icon: "🦁", rtp: 96.8, volatility: "High", minBet: 5, maxBet: 100, multipliers: [1, 2, 5, 12, 20, 40, 80, 300] },
+            { id: 5, name: "Hollywoodbets Chilli Heat", icon: "🌶️", rtp: 96.1, volatility: "Low", minBet: 5, maxBet: 100, multipliers: [1, 1.5, 3, 5, 10, 20, 50, 120] }
+        ];
+
+        function showSlotsTournament() {
+            closeModal();
+            document.getElementById('slotsTournamentOverlay').classList.add('active');
+            initializeTournamentParticipants();
+            populateSlotMachines();
+            updateLeaderboard();
+            startTournamentCountdown();
+            updateTournamentUI();
+        }
+
+        function closeSlotsTournament() {
+            document.getElementById('slotsTournamentOverlay').classList.remove('active');
+            if (slotsTournamentState.countdownInterval) {
+                clearInterval(slotsTournamentState.countdownInterval);
+            }
+        }
+
+        function initializeTournamentParticipants() {
+            slotsTournamentState.participants = [
+                { id: 1, name: "SpinMaster99", points: 8750, isCurrentUser: false },
+                { id: 2, name: "LuckyPlayer", points: 7320, isCurrentUser: false },
+                { id: 3, name: "SlotKing", points: 6890, isCurrentUser: false },
+                { id: 4, name: "CasinoQueen", points: 5640, isCurrentUser: false },
+                { id: 5, name: "BigWinner", points: 4920, isCurrentUser: false },
+                { id: 6, name: userData.name || "You", points: slotsTournamentState.tournamentPoints, isCurrentUser: true }
+            ];
+        }
+
+        function populateSlotMachines() {
+            const slotsGrid = document.getElementById('slotsGrid');
+            slotsGrid.innerHTML = '';
+            
+            slotMachines.forEach(slot => {
+                const slotCard = document.createElement('div');
+                slotCard.className = 'slot-machine';
+                slotCard.onclick = () => selectSlotMachine(slot.id);
+                
+                const progress = Math.min((slotsTournamentState.tournamentPoints / slotsTournamentState.targetPoints) * 100, 100);
+                
+                slotCard.innerHTML = `
+                    <div class="slot-header">
+                        <div class="slot-name">${slot.name}</div>
+                        <div class="slot-icon">${slot.icon}</div>
+                    </div>
+                    <div class="slot-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">${slot.rtp}%</span>
+                            <span class="stat-label">RTP</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${slot.volatility}</span>
+                            <span class="stat-label">Volatility</span>
+                        </div>
+                    </div>
+                    <div class="slot-progress">
+                        <div class="progress-label">
+                            <span>Tournament Progress</span>
+                            <span>${slotsTournamentState.tournamentPoints}/${slotsTournamentState.targetPoints}</span>
+                        </div>
+                        <div class="progress-bar-slot">
+                            <div class="progress-fill-slot" style="width: ${progress}%"></div>
+                        </div>
+                    </div>
+                `;
+                
+                slotsGrid.appendChild(slotCard);
+            });
+        }
+
+        function selectSlotMachine(slotId) {
+            if (!slotsTournamentState.isJoined) {
+                showNotification('Please join the tournament first!');
+                return;
+            }
+
+            slotsTournamentState.selectedSlot = slotId;
+            
+            document.querySelectorAll('.slot-machine').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            const selectedCard = document.querySelectorAll('.slot-machine')[slotId - 1];
+            selectedCard.classList.add('selected');
+            
+            document.getElementById('spinControls').classList.add('active');
+            document.getElementById('spinInput').value = '';
+            updateSpinButton();
+        }
+
+        function setSpinAmount(amount) {
+            if (!slotsTournamentState.selectedSlot) return;
+            
+            if (amount > userData.points) {
+                showNotification(`Not enough points! You have ${userData.points} points.`);
+                return;
+            }
+            
+            document.getElementById('spinInput').value = amount;
+            updateSpinButton();
+        }
+
+        function updateSpinButton() {
+            const spinInput = document.getElementById('spinInput');
+            const spinButton = document.getElementById('spinSlotButton');
+            const betAmount = parseInt(spinInput.value) || 0;
+            
+            if (betAmount > 0 && slotsTournamentState.selectedSlot && betAmount <= userData.points) {
+                spinButton.disabled = false;
+                spinButton.textContent = `🎰 SPIN (${betAmount} points)`;
+            } else {
+                spinButton.disabled = true;
+                spinButton.textContent = '🎰 SPIN TO WIN!';
+            }
+        }
+
+        function spinSlotMachine() {
+            const betAmount = parseInt(document.getElementById('spinInput').value) || 0;
+            if (!slotsTournamentState.selectedSlot || betAmount <= 0 || betAmount > userData.points) return;
+            
+            const slot = slotMachines.find(s => s.id === slotsTournamentState.selectedSlot);
+            
+            userData.points -= betAmount;
+            document.getElementById('pointsDisplay').textContent = `${userData.points} Points`;
+            
+            const selectedCard = document.querySelectorAll('.slot-machine')[slotsTournamentState.selectedSlot - 1];
+            selectedCard.classList.add('playing');
+            
+            const spinButton = document.getElementById('spinSlotButton');
+            spinButton.disabled = true;
+            spinButton.textContent = '🎰 SPINNING...';
+            
+            setTimeout(() => {
+                simulateSlotSpin(slot, betAmount);
+                selectedCard.classList.remove('playing');
+                updateSpinButton();
+            }, 2000);
+            
+            if (authState.currentUser) {
+                authState.currentUser.points = userData.points;
+                localStorage.setItem('purpleRewardsUser', JSON.stringify(authState.currentUser));
+            }
+        }
+
+        function simulateSlotSpin(slot, betAmount) {
+            const random = Math.random() * 100;
+            const winChance = slot.rtp / 2;
+            
+            if (random <= winChance) {
+                const multiplierIndex = Math.floor(Math.random() * slot.multipliers.length);
+                const multiplier = slot.multipliers[multiplierIndex];
+                const winAmount = Math.floor(betAmount * multiplier);
+                const tournamentPoints = Math.floor(winAmount * 0.8);
+                
+                userData.points += winAmount;
+                document.getElementById('pointsDisplay').textContent = `${userData.points} Points`;
+                
+                slotsTournamentState.tournamentPoints += tournamentPoints;
+                
+                updateProgress();
+                checkTierUpgrade();
+                updateTournamentProgress();
+                updateLeaderboard();
+                
+                showNotification(`🎰 ${slot.icon} WIN! +${winAmount} points (+${tournamentPoints} tournament points)`);
+                
+                if (slotsTournamentState.tournamentPoints >= slotsTournamentState.targetPoints) {
+                    showTournamentWin();
+                }
+            } else {
+                const consolationPoints = Math.floor(betAmount * 0.1);
+                slotsTournamentState.tournamentPoints += consolationPoints;
+                
+                updateTournamentProgress();
+                updateLeaderboard();
+                
+                showNotification(`${slot.icon} No win this time. +${consolationPoints} tournament points for trying!`);
+            }
+        }
+
+        function joinSlotsTournament() {
+            slotsTournamentState.isJoined = true;
+            slotsTournamentState.tournamentPoints = 0;
+            
+            document.getElementById('joinTournamentBtn').style.display = 'none';
+            document.getElementById('leaveTournamentBtn').style.display = 'inline-block';
+            
+            const currentUserParticipant = slotsTournamentState.participants.find(p => p.isCurrentUser);
+            if (currentUserParticipant) {
+                currentUserParticipant.points = slotsTournamentState.tournamentPoints;
+            }
+            
+            updateLeaderboard();
+            populateSlotMachines();
+            
+            showNotification('🎰 Joined the slots tournament! Select a slot machine to start spinning!');
+        }
+
+        function leaveSlotsTournament() {
+            slotsTournamentState.isJoined = false;
+            slotsTournamentState.selectedSlot = null;
+            slotsTournamentState.tournamentPoints = 0;
+            
+            document.getElementById('joinTournamentBtn').style.display = 'inline-block';
+            document.getElementById('leaveTournamentBtn').style.display = 'none';
+            document.getElementById('spinControls').classList.remove('active');
+            
+            document.querySelectorAll('.slot-machine').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            updateLeaderboard();
+            populateSlotMachines();
+            
+            showNotification('Left the slots tournament.');
+        }
+
+        function updateLeaderboard() {
+            const currentUserParticipant = slotsTournamentState.participants.find(p => p.isCurrentUser);
+            if (currentUserParticipant) {
+                currentUserParticipant.points = slotsTournamentState.tournamentPoints;
+            }
+            
+            const sortedParticipants = [...slotsTournamentState.participants].sort((a, b) => b.points - a.points);
+            
+            const leaderboardList = document.getElementById('leaderboardList');
+            leaderboardList.innerHTML = '';
+            
+            sortedParticipants.forEach((participant, index) => {
+                const item = document.createElement('div');
+                item.className = `leaderboard-item ${participant.isCurrentUser ? 'current-user' : ''}`;
+                
+                let rankClass = '';
+                if (index === 0) rankClass = 'gold';
+                else if (index === 1) rankClass = 'silver';
+                else if (index === 2) rankClass = 'bronze';
+                
+                item.innerHTML = `
+                    <div class="player-info">
+                        <div class="player-rank ${rankClass}">${index + 1}</div>
+                        <div class="player-name">${participant.name}</div>
+                    </div>
+                    <div class="player-points">${participant.points.toLocaleString()} pts</div>
+                `;
+                
+                leaderboardList.appendChild(item);
+            });
+        }
+
+        function updateTournamentProgress() {
+            const progress = Math.min((slotsTournamentState.tournamentPoints / slotsTournamentState.targetPoints) * 100, 100);
+            
+            document.querySelectorAll('.progress-fill-slot').forEach(fill => {
+                fill.style.width = `${progress}%`;
+            });
+            
+            document.querySelectorAll('.progress-label span:last-child').forEach(label => {
+                label.textContent = `${slotsTournamentState.tournamentPoints}/${slotsTournamentState.targetPoints}`;
+            });
+        }
+
+        function startTournamentCountdown() {
+            if (slotsTournamentState.countdownInterval) {
+                clearInterval(slotsTournamentState.countdownInterval);
+            }
+            
+            slotsTournamentState.countdownInterval = setInterval(() => {
+                slotsTournamentState.timeRemaining--;
+                
+                const hours = Math.floor(slotsTournamentState.timeRemaining / 3600);
+                const minutes = Math.floor((slotsTournamentState.timeRemaining % 3600) / 60);
+                const timeString = `${hours}h ${minutes}m remaining`;
+                
+                document.getElementById('timeRemaining').textContent = timeString;
+                
+                if (slotsTournamentState.timeRemaining <= 0) {
+                    clearInterval(slotsTournamentState.countdownInterval);
+                    document.getElementById('timeRemaining').textContent = "Tournament Ended!";
+                }
+            }, 1000);
+        }
+
+        function updateTournamentUI() {
+            if (slotsTournamentState.isJoined) {
+                document.getElementById('joinTournamentBtn').style.display = 'none';
+                document.getElementById('leaveTournamentBtn').style.display = 'inline-block';
+            } else {
+                document.getElementById('joinTournamentBtn').style.display = 'inline-block';
+                document.getElementById('leaveTournamentBtn').style.display = 'none';
+                document.getElementById('spinControls').classList.remove('active');
+            }
+        }
+
+        function showTournamentWin() {
+            const bonusPoints = 2500;
+            userData.points += bonusPoints;
+            document.getElementById('pointsDisplay').textContent = `${userData.points} Points`;
+            
+            updateProgress();
+            checkTierUpgrade();
+            
+            if (authState.currentUser) {
+                authState.currentUser.points = userData.points;
+                localStorage.setItem('purpleRewardsUser', JSON.stringify(authState.currentUser));
+            }
+            
+            showNotification(`🏆 TOURNAMENT WON! You reached 10,000 points first! +${bonusPoints} bonus points!`);
+            
+            setTimeout(() => {
+                leaveSlotsTournament();
+                closeSlotsTournament();
+            }, 3000);
+        }
+
         // Add event listener for bet input
         document.addEventListener('DOMContentLoaded', function() {
             const betInput = document.getElementById('betInput');
             if (betInput) {
                 betInput.addEventListener('input', updatePotentialWin);
+            }
+            
+            const spinInput = document.getElementById('spinInput');
+            if (spinInput) {
+                spinInput.addEventListener('input', updateSpinButton);
             }
         });
 

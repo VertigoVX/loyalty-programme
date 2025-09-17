@@ -52,8 +52,14 @@
         }
 
         .logo::before {
-            content: "⭐";
-            font-size: 28px;
+            content: "";
+            width: 28px;
+            height: 28px;
+            background-image: url('./assets/star.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: inline-block;
         }
 
         .user-info {
@@ -434,8 +440,13 @@
         }
 
         .auth-logo {
-            font-size: 48px;
-            margin-bottom: 10px;
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 10px;
+            background-image: url('./assets/star.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
         .auth-title {
@@ -665,6 +676,32 @@
                 flex-direction: column;
                 gap: 20px;
                 align-items: center;
+                position: relative;
+            }
+
+            .milestones::before {
+                content: '';
+                position: absolute;
+                top: 60px;
+                bottom: 60px;
+                left: 50%;
+                width: 4px;
+                background: #e0e0e0;
+                transform: translateX(-50%);
+                z-index: 1;
+            }
+
+            .milestones::after {
+                content: '';
+                position: absolute;
+                top: 60px;
+                left: 50%;
+                width: 4px;
+                height: 25%;
+                background: linear-gradient(180deg, #667eea, #764ba2);
+                transform: translateX(-50%);
+                z-index: 2;
+                border-radius: 2px;
             }
 
             .milestone {
@@ -674,9 +711,11 @@
                 justify-content: flex-start;
                 gap: 15px;
                 padding: 15px;
-                background: rgba(255, 255, 255, 0.8);
+                background: rgba(255, 255, 255, 0.9);
                 border-radius: 15px;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                position: relative;
+                z-index: 3;
             }
 
             .milestone-icon {
@@ -844,9 +883,235 @@
             }
         }
 
+        /* Spinner Overlay Styles */
+        .spinner-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .spinner-overlay.active {
+            display: flex;
+        }
+
+        .spinner-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        .spinner-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 20px;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 30px;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            border: 8px solid #764ba2;
+            transition: transform 3s cubic-bezier(0.23, 1, 0.32, 1);
+            background: conic-gradient(
+                #ff6b6b 0deg 45deg,
+                #4ecdc4 45deg 90deg,
+                #45b7d1 90deg 135deg,
+                #96ceb4 135deg 180deg,
+                #feca57 180deg 225deg,
+                #ff9ff3 225deg 270deg,
+                #54a0ff 270deg 315deg,
+                #5f27cd 315deg 360deg
+            );
+        }
+
+        .wheel-text {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 25px;
+        }
+
+        .wheel-segment span {
+            font-weight: bold;
+            font-size: 11px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            text-align: center;
+            line-height: 1.1;
+            transform: rotate(-22.5deg);
+        }
+
+        .wheel-segment:nth-child(1) {
+            transform: rotate(0deg);
+        }
+
+        .wheel-segment:nth-child(2) {
+            transform: rotate(45deg);
+        }
+
+        .wheel-segment:nth-child(3) {
+            transform: rotate(90deg);
+        }
+
+        .wheel-segment:nth-child(4) {
+            transform: rotate(135deg);
+        }
+
+        .wheel-segment:nth-child(5) {
+            transform: rotate(180deg);
+        }
+
+        .wheel-segment:nth-child(6) {
+            transform: rotate(225deg);
+        }
+
+        .wheel-segment:nth-child(7) {
+            transform: rotate(270deg);
+        }
+
+        .wheel-segment:nth-child(8) {
+            transform: rotate(315deg);
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 25px solid #764ba2;
+            z-index: 10;
+        }
+
+        .spin-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .spin-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(118, 75, 162, 0.3);
+        }
+
+        .spin-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .spinner-result {
+            display: none;
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            color: #2e7d32;
+        }
+
+        .spinner-result.show {
+            display: block;
+            animation: bounceIn 0.5s ease;
+        }
+
+        .result-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .result-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .result-description {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .close-spinner {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         @media (max-width: 480px) {
             .journey-title {
                 font-size: 20px;
+            }
+
+            .milestones::before {
+                top: 50px;
+                bottom: 50px;
+            }
+
+            .milestones::after {
+                top: 50px;
+                height: 30%;
             }
 
             .milestone {
@@ -854,6 +1119,7 @@
                 text-align: center;
                 gap: 10px;
                 padding: 12px;
+                max-width: 150px;
             }
 
             .milestone-info {
@@ -888,6 +1154,295 @@
                 width: 100%;
                 margin-top: 10px;
             }
+
+            .spinner-container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            .wheel-container {
+                width: 240px;
+                height: 240px;
+            }
+
+            .spinner-title {
+                font-size: 20px;
+            }
+        }
+
+        /* Horse Racing Tournament Styles */
+        .horse-racing-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .horse-racing-overlay.active {
+            display: flex;
+        }
+
+        .horse-racing-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        .horse-racing-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .race-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .race-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .race-time {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .race-countdown {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .horses-grid {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .horse-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .horse-card:hover {
+            border-color: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.2);
+        }
+
+        .horse-card.selected {
+            border-color: #764ba2;
+            background: rgba(118, 75, 162, 0.1);
+        }
+
+        .horse-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .horse-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .horse-odds {
+            background: #4caf50;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .horse-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .win-chance {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chance-bar {
+            flex: 1;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .chance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            transition: width 0.3s ease;
+        }
+
+        .chance-percent {
+            font-weight: bold;
+            color: #4caf50;
+            min-width: 35px;
+        }
+
+        .bet-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .bet-amount {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .bet-amount label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .bet-input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .bet-input:focus {
+            outline: none;
+            border-color: #764ba2;
+        }
+
+        .bet-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .bet-quick {
+            flex: 1;
+            padding: 8px 12px;
+            border: 2px solid #764ba2;
+            background: white;
+            color: #764ba2;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .bet-quick:hover {
+            background: #764ba2;
+            color: white;
+        }
+
+        .potential-win {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .potential-win-text {
+            font-size: 14px;
+            color: #2e7d32;
+            margin-bottom: 5px;
+        }
+
+        .potential-win-amount {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4caf50;
+        }
+
+        .place-bet-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .place-bet-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(118, 75, 162, 0.3);
+        }
+
+        .place-bet-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .close-horse-racing {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        @media (max-width: 480px) {
+            .horse-racing-container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            .horse-racing-title {
+                font-size: 20px;
+            }
+
+            .bet-buttons {
+                flex-wrap: wrap;
+            }
+
+            .bet-quick {
+                min-width: calc(50% - 5px);
+            }
         }
     </style>
 </head>
@@ -895,7 +1450,7 @@
     <!-- Authentication Page -->
     <div class="auth-container active" id="authContainer">
         <div class="auth-card">
-            <div class="auth-logo">⭐</div>
+            <div class="auth-logo"></div>
             <h1 class="auth-title">Purple Rewards</h1>
             <p class="auth-subtitle">Join our exclusive loyalty program</p>
             
@@ -1079,6 +1634,81 @@
         </div>
     </div>
     </div> <!-- End Main Content -->
+
+    <!-- Spinner Overlay -->
+    <div class="spinner-overlay" id="spinnerOverlay">
+        <div class="spinner-container">
+            <button class="close-spinner" onclick="closeSpinner()">&times;</button>
+            <h2 class="spinner-title">🎁 Daily Free Spin!</h2>
+            
+            <div class="wheel-container">
+                <div class="wheel-pointer"></div>
+                <div class="wheel" id="wheel">
+                    <div class="wheel-text">
+                        <div class="wheel-segment"><span>50<br>Points</span></div>
+                        <div class="wheel-segment"><span>Free<br>Spin</span></div>
+                        <div class="wheel-segment"><span>100<br>Points</span></div>
+                        <div class="wheel-segment"><span>Bonus<br>2x</span></div>
+                        <div class="wheel-segment"><span>25<br>Points</span></div>
+                        <div class="wheel-segment"><span>Cash<br>back</span></div>
+                        <div class="wheel-segment"><span>200<br>Points</span></div>
+                        <div class="wheel-segment"><span>Jack<br>pot!</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="spin-button" id="spinButton" onclick="spinWheel()">
+                🎯 SPIN THE WHEEL!
+            </button>
+            
+            <div class="spinner-result" id="spinnerResult">
+                <div class="result-icon" id="resultIcon"></div>
+                <div class="result-text" id="resultText"></div>
+                <div class="result-description" id="resultDescription"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Horse Racing Tournament Overlay -->
+    <div class="horse-racing-overlay" id="horseRacingOverlay">
+        <div class="horse-racing-container">
+            <button class="close-horse-racing" onclick="closeHorseRacing()">&times;</button>
+            <h2 class="horse-racing-title">🏇 Horse Racing Tournament</h2>
+            
+            <div class="race-info">
+                <div class="race-title">Purple Derby - Race #247</div>
+                <div class="race-time">Next Race: <span id="raceTime">3:45 PM</span></div>
+                <div class="race-countdown">Starting in: <span id="countdown">2m 15s</span></div>
+            </div>
+
+            <div class="horses-grid" id="horsesGrid">
+                <!-- Horses will be populated by JavaScript -->
+            </div>
+
+            <div class="bet-section" id="betSection" style="display: none;">
+                <div class="bet-amount">
+                    <label>Bet Amount:</label>
+                    <input type="number" class="bet-input" id="betInput" placeholder="Enter points" min="10" max="500">
+                </div>
+                
+                <div class="bet-buttons">
+                    <button class="bet-quick" onclick="setBetAmount(25)">25</button>
+                    <button class="bet-quick" onclick="setBetAmount(50)">50</button>
+                    <button class="bet-quick" onclick="setBetAmount(100)">100</button>
+                    <button class="bet-quick" onclick="setBetAmount(200)">200</button>
+                </div>
+
+                <div class="potential-win" id="potentialWin" style="display: none;">
+                    <div class="potential-win-text">Potential Winnings:</div>
+                    <div class="potential-win-amount" id="potentialWinAmount">0 Points</div>
+                </div>
+
+                <button class="place-bet-button" id="placeBetButton" onclick="placeBet()" disabled>
+                    🎯 Place Bet
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal -->
     <div class="modal" id="modal">
@@ -1633,7 +2263,7 @@
                                     <strong>Tournament Entry</strong>
                                     <p style="color: #666; font-size: 14px; margin: 5px 0;">Join exclusive competitions</p>
                                 </div>
-                                <button class="btn btn-secondary">View</button>
+                                <button class="btn btn-secondary" onclick="showHorseRacing()">View</button>
                             </div>
                         </div>
                     </div>
@@ -1645,10 +2275,375 @@
 
         function claimReward(type) {
             if (type === 'spin') {
-                showNotification('Daily spin claimed! Good luck! 🍀');
                 closeModal();
+                showSpinner();
             }
         }
+
+        // Spinner functionality
+        let isSpinning = false;
+        let hasSpunToday = false;
+
+        const spinRewards = [
+            { name: '50 Points', icon: '💰', points: 50, description: 'Added to your account!' },
+            { name: 'Free Spin', icon: '🎁', points: 0, description: 'Spin again tomorrow!' },
+            { name: '100 Points', icon: '💎', points: 100, description: 'Nice win!' },
+            { name: 'Bonus 2x', icon: '⚡', points: 0, description: 'Next deposit doubled!' },
+            { name: '25 Points', icon: '🪙', points: 25, description: 'Better luck next time!' },
+            { name: 'Cashback', icon: '💸', points: 0, description: '5% cashback activated!' },
+            { name: '200 Points', icon: '🏆', points: 200, description: 'Excellent spin!' },
+            { name: 'Jackpot!', icon: '🎰', points: 500, description: 'MEGA WIN! 500 Points!' }
+        ];
+
+        function showSpinner() {
+            document.getElementById('spinnerOverlay').classList.add('active');
+            document.getElementById('spinnerResult').classList.remove('show');
+            document.getElementById('spinButton').disabled = false;
+            document.getElementById('spinButton').textContent = '🎯 SPIN THE WHEEL!';
+            
+            // Reset wheel rotation
+            document.getElementById('wheel').style.transform = 'rotate(0deg)';
+        }
+
+        function closeSpinner() {
+            document.getElementById('spinnerOverlay').classList.remove('active');
+            isSpinning = false;
+        }
+
+        function spinWheel() {
+            if (isSpinning) return;
+            
+            isSpinning = true;
+            const spinButton = document.getElementById('spinButton');
+            const wheel = document.getElementById('wheel');
+            
+            spinButton.disabled = true;
+            spinButton.textContent = '🌪️ SPINNING...';
+            
+            // Calculate random spin (multiple full rotations + random position)
+            const minSpins = 5;
+            const maxSpins = 8;
+            const spins = Math.random() * (maxSpins - minSpins) + minSpins;
+            const finalRotation = spins * 360;
+            
+            // Determine which segment wins (8 segments, 45 degrees each)
+            const segmentAngle = 45;
+            const winningSegmentIndex = Math.floor(Math.random() * 8);
+            const segmentCenter = winningSegmentIndex * segmentAngle + (segmentAngle / 2);
+            
+            // Adjust rotation so the pointer lands on the winning segment
+            const adjustedRotation = finalRotation - segmentCenter;
+            
+            wheel.style.transform = `rotate(${adjustedRotation}deg)`;
+            
+            // Show result after spin animation completes
+            setTimeout(() => {
+                showSpinResult(winningSegmentIndex);
+                isSpinning = false;
+                hasSpunToday = true;
+            }, 3000);
+        }
+
+        function showSpinResult(segmentIndex) {
+            const reward = spinRewards[segmentIndex];
+            const resultDiv = document.getElementById('spinnerResult');
+            const resultIcon = document.getElementById('resultIcon');
+            const resultText = document.getElementById('resultText');
+            const resultDescription = document.getElementById('resultDescription');
+            
+            resultIcon.textContent = reward.icon;
+            resultText.textContent = `You won: ${reward.name}!`;
+            resultDescription.textContent = reward.description;
+            
+            resultDiv.classList.add('show');
+            
+            // Apply the reward
+            if (reward.points > 0) {
+                userData.points += reward.points;
+                document.getElementById('pointsDisplay').textContent = `${userData.points} Points`;
+                
+                // Update progress
+                updateProgress();
+                
+                // Check for tier upgrade
+                checkTierUpgrade();
+                
+                // Save to localStorage if user is logged in
+                if (authState.currentUser) {
+                    authState.currentUser.points = userData.points;
+                    localStorage.setItem('purpleRewardsUser', JSON.stringify(authState.currentUser));
+                    
+                    // Update users array
+                    const existingUsers = JSON.parse(localStorage.getItem('purpleRewardsUsers') || '[]');
+                    const userIndex = existingUsers.findIndex(u => u.id === authState.currentUser.id);
+                    if (userIndex >= 0) {
+                        existingUsers[userIndex].points = userData.points;
+                        localStorage.setItem('purpleRewardsUsers', JSON.stringify(existingUsers));
+                    }
+                }
+            }
+            
+            // Update button
+            const spinButton = document.getElementById('spinButton');
+            spinButton.textContent = '✨ SPIN COMPLETE!';
+            
+            // Show celebration notification
+            setTimeout(() => {
+                showNotification(`🎉 ${reward.name} claimed! ${reward.description}`);
+            }, 1000);
+        }
+
+        // Horse Racing Tournament functionality
+        let selectedHorse = null;
+        let currentBet = 0;
+        let raceCountdown = 135; // 2m 15s in seconds
+        let countdownInterval = null;
+
+        const horses = [
+            { id: 1, name: "Thunder Bolt", emoji: "⚡", winChance: 35, odds: 2.8, jockey: "Mike Johnson", record: "8-3-2" },
+            { id: 2, name: "Midnight Star", emoji: "🌟", winChance: 28, odds: 3.5, jockey: "Sarah Wilson", record: "6-4-3" },
+            { id: 3, name: "Golden Arrow", emoji: "🏹", winChance: 22, odds: 4.5, jockey: "Tom Rodriguez", record: "5-2-4" },
+            { id: 4, name: "Storm Chaser", emoji: "🌪️", winChance: 15, odds: 6.7, jockey: "Lisa Chen", record: "3-5-2" }
+        ];
+
+        function showHorseRacing() {
+            closeModal();
+            document.getElementById('horseRacingOverlay').classList.add('active');
+            generateRaceInfo();
+            populateHorses();
+            startCountdown();
+        }
+
+        function closeHorseRacing() {
+            document.getElementById('horseRacingOverlay').classList.remove('active');
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            resetBetting();
+        }
+
+        function generateRaceInfo() {
+            const now = new Date();
+            const raceTime = new Date(now.getTime() + raceCountdown * 1000);
+            const timeString = raceTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            document.getElementById('raceTime').textContent = timeString;
+        }
+
+        function startCountdown() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            countdownInterval = setInterval(() => {
+                raceCountdown--;
+                
+                const minutes = Math.floor(raceCountdown / 60);
+                const seconds = raceCountdown % 60;
+                const timeString = `${minutes}m ${seconds.toString().padStart(2, '0')}s`;
+                
+                document.getElementById('countdown').textContent = timeString;
+                
+                if (raceCountdown <= 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('countdown').textContent = "Race Starting!";
+                    // In a real app, this would trigger the race
+                }
+            }, 1000);
+        }
+
+        function populateHorses() {
+            const horsesGrid = document.getElementById('horsesGrid');
+            horsesGrid.innerHTML = '';
+            
+            horses.forEach(horse => {
+                const horseCard = document.createElement('div');
+                horseCard.className = 'horse-card';
+                horseCard.onclick = () => selectHorse(horse.id);
+                
+                horseCard.innerHTML = `
+                    <div class="horse-header">
+                        <div class="horse-name">${horse.emoji} ${horse.name}</div>
+                        <div class="horse-odds">${horse.odds}:1</div>
+                    </div>
+                    <div class="horse-stats">
+                        <span>Jockey: ${horse.jockey}</span>
+                        <span>Record: ${horse.record}</span>
+                    </div>
+                    <div class="win-chance">
+                        <div class="chance-bar">
+                            <div class="chance-fill" style="width: ${horse.winChance}%"></div>
+                        </div>
+                        <div class="chance-percent">${horse.winChance}%</div>
+                    </div>
+                `;
+                
+                horsesGrid.appendChild(horseCard);
+            });
+        }
+
+        function selectHorse(horseId) {
+            selectedHorse = horseId;
+            
+            // Update visual selection
+            document.querySelectorAll('.horse-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            const selectedCard = document.querySelectorAll('.horse-card')[horseId - 1];
+            selectedCard.classList.add('selected');
+            
+            // Show betting section
+            document.getElementById('betSection').style.display = 'block';
+            
+            // Reset bet input
+            document.getElementById('betInput').value = '';
+            updatePotentialWin();
+        }
+
+        function setBetAmount(amount) {
+            if (!selectedHorse) return;
+            
+            // Check if user has enough points
+            if (amount > userData.points) {
+                showNotification(`Not enough points! You have ${userData.points} points.`);
+                return;
+            }
+            
+            document.getElementById('betInput').value = amount;
+            currentBet = amount;
+            updatePotentialWin();
+        }
+
+        function updatePotentialWin() {
+            const betInput = document.getElementById('betInput');
+            const betAmount = parseInt(betInput.value) || 0;
+            currentBet = betAmount;
+            
+            if (betAmount > 0 && selectedHorse) {
+                const horse = horses.find(h => h.id === selectedHorse);
+                const potentialWin = Math.floor(betAmount * horse.odds);
+                
+                document.getElementById('potentialWinAmount').textContent = `${potentialWin} Points`;
+                document.getElementById('potentialWin').style.display = 'block';
+                document.getElementById('placeBetButton').disabled = false;
+            } else {
+                document.getElementById('potentialWin').style.display = 'none';
+                document.getElementById('placeBetButton').disabled = true;
+            }
+        }
+
+        function placeBet() {
+            if (!selectedHorse || currentBet <= 0) return;
+            
+            if (currentBet > userData.points) {
+                showNotification(`Not enough points! You have ${userData.points} points.`);
+                return;
+            }
+            
+            const horse = horses.find(h => h.id === selectedHorse);
+            
+            // Deduct bet amount
+            userData.points -= currentBet;
+            document.getElementById('pointsDisplay').textContent = `${userData.points} Points`;
+            
+            // Simulate race result
+            setTimeout(() => {
+                simulateRace(horse);
+            }, 1000);
+            
+            // Update button
+            document.getElementById('placeBetButton').textContent = '🏁 Race in Progress...';
+            document.getElementById('placeBetButton').disabled = true;
+            
+            // Save points if user is logged in
+            if (authState.currentUser) {
+                authState.currentUser.points = userData.points;
+                localStorage.setItem('purpleRewardsUser', JSON.stringify(authState.currentUser));
+                
+                const existingUsers = JSON.parse(localStorage.getItem('purpleRewardsUsers') || '[]');
+                const userIndex = existingUsers.findIndex(u => u.id === authState.currentUser.id);
+                if (userIndex >= 0) {
+                    existingUsers[userIndex].points = userData.points;
+                    localStorage.setItem('purpleRewardsUsers', JSON.stringify(existingUsers));
+                }
+            }
+        }
+
+        function simulateRace(selectedHorse) {
+            // Simulate race based on win chances
+            const random = Math.random() * 100;
+            let cumulativeChance = 0;
+            let winner = null;
+            
+            for (const horse of horses) {
+                cumulativeChance += horse.winChance;
+                if (random <= cumulativeChance) {
+                    winner = horse;
+                    break;
+                }
+            }
+            
+            // If no winner selected (edge case), pick the last horse
+            if (!winner) winner = horses[horses.length - 1];
+            
+            const didWin = winner.id === selectedHorse.id;
+            const winnings = didWin ? Math.floor(currentBet * selectedHorse.odds) : 0;
+            
+            if (didWin) {
+                userData.points += winnings;
+                document.getElementById('pointsDisplay').textContent = `${userData.points} Points`;
+                updateProgress();
+                checkTierUpgrade();
+                
+                showNotification(`🏆 ${winner.name} won! You earned ${winnings} points!`);
+                
+                // Save updated points
+                if (authState.currentUser) {
+                    authState.currentUser.points = userData.points;
+                    localStorage.setItem('purpleRewardsUser', JSON.stringify(authState.currentUser));
+                    
+                    const existingUsers = JSON.parse(localStorage.getItem('purpleRewardsUsers') || '[]');
+                    const userIndex = existingUsers.findIndex(u => u.id === authState.currentUser.id);
+                    if (userIndex >= 0) {
+                        existingUsers[userIndex].points = userData.points;
+                        localStorage.setItem('purpleRewardsUsers', JSON.stringify(existingUsers));
+                    }
+                }
+            } else {
+                showNotification(`😔 ${winner.name} won the race. Better luck next time!`);
+            }
+            
+            // Reset for next race
+            setTimeout(() => {
+                resetBetting();
+                raceCountdown = 180; // 3 minutes for next race
+                generateRaceInfo();
+                startCountdown();
+            }, 3000);
+        }
+
+        function resetBetting() {
+            selectedHorse = null;
+            currentBet = 0;
+            document.getElementById('betSection').style.display = 'none';
+            document.getElementById('betInput').value = '';
+            document.getElementById('potentialWin').style.display = 'none';
+            document.getElementById('placeBetButton').textContent = '🎯 Place Bet';
+            document.getElementById('placeBetButton').disabled = true;
+            
+            document.querySelectorAll('.horse-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+        }
+
+        // Add event listener for bet input
+        document.addEventListener('DOMContentLoaded', function() {
+            const betInput = document.getElementById('betInput');
+            if (betInput) {
+                betInput.addEventListener('input', updatePotentialWin);
+            }
+        });
 
         function showNotification(message) {
             const notification = document.createElement('div');

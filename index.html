@@ -80,6 +80,69 @@
             gap: 10px;
         }
 
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: rgba(118, 75, 162, 0.1);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            color: #764ba2;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-tab:hover::before {
+            left: 100%;
+        }
+
+        .nav-tab:hover {
+            background: rgba(118, 75, 162, 0.15);
+            border-color: rgba(118, 75, 162, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(118, 75, 162, 0.2);
+        }
+
+        .nav-tab:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(118, 75, 162, 0.2);
+        }
+
+        .nav-tab-icon {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-tab-text {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
         .logo::before {
             content: "";
             width: 28px;
@@ -624,8 +687,8 @@
 
         .progress-bar {
             background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-            height: 48px;
-            border-radius: 24px;
+            height: 80px;
+            border-radius: 40px;
             overflow: hidden;
             margin: 28px 0;
             box-shadow: 
@@ -643,7 +706,7 @@
             right: 0;
             height: 50%;
             background: linear-gradient(180deg, rgba(255,255,255,0.3), transparent);
-            border-radius: 25px 25px 0 0;
+            border-radius: 40px 40px 0 0;
         }
 
         .progress-fill {
@@ -655,7 +718,7 @@
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 22px;
             text-shadow: 0 1px 2px rgba(0,0,0,0.3);
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
             position: relative;
@@ -965,6 +1028,22 @@
                 font-size: 22px;
             }
 
+            .header-nav {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                margin-top: 8px;
+            }
+
+            .nav-tab {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            .nav-tab-icon {
+                font-size: 14px;
+            }
+
             .points-display {
                 padding: 10px 16px;
                 font-size: 13px;
@@ -1069,13 +1148,13 @@
 
             /* Progress bar improvements */
             .progress-bar {
-                height: 35px;
+                height: 65px;
                 margin: 20px 0;
-                border-radius: 20px;
+                border-radius: 32px;
             }
 
             .progress-fill {
-                font-size: 14px;
+                font-size: 18px;
             }
 
             .progress-info {
@@ -2133,6 +2212,91 @@
             transform: translateY(-2px);
         }
 
+        .tournament-machines {
+            margin: 25px 0;
+        }
+
+        .tournament-machines-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .machines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .machine-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .machine-card:hover {
+            border-color: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(118, 75, 162, 0.2);
+        }
+
+        .machine-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .machine-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .machine-status {
+            color: #4caf50;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .tournament-info-footer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .info-card {
+            background: rgba(118, 75, 162, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .info-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .info-title {
+            font-weight: bold;
+            color: #764ba2;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .info-desc {
+            color: #666;
+            font-size: 12px;
+        }
+
         .close-slots-tournament {
             position: absolute;
             top: 15px;
@@ -2256,12 +2420,26 @@
                 flex-direction: column;
             }
 
-            .spin-quick-buttons {
-                flex-wrap: wrap;
+            .machines-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
             }
 
-            .spin-quick {
-                min-width: calc(50% - 5px);
+            .machine-card {
+                padding: 12px;
+            }
+
+            .machine-icon {
+                font-size: 28px;
+            }
+
+            .tournament-info-footer {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .info-card {
+                padding: 12px;
             }
         }
 
@@ -3855,6 +4033,12 @@
         <header>
             <div class="header-content">
                 <div class="logo">Purple Rewards</div>
+                <nav class="header-nav">
+                    <button class="nav-tab" onclick="scrollToFAQ()" title="View Frequently Asked Questions">
+                        <span class="nav-tab-icon">❓</span>
+                        <span class="nav-tab-text">FAQ</span>
+                    </button>
+                </nav>
                 <div class="user-info">
                     <div class="points-display" id="pointsDisplay">650 Points</div>
                     <button class="btn btn-secondary" onclick="showProfile()">Profile</button>
@@ -3927,7 +4111,7 @@
             </div>
 
             <div class="tier-details">
-                <div class="tier-card active">
+                <div class="tier-card active" onclick="showTierDetails(1)" style="cursor: pointer;" title="Click to view tier details">
                     <div class="tier-badge">⭐</div>
                     <div class="tier-name">Current Tier: Rookie</div>
                     <div class="tier-requirements">Entry Level</div>
@@ -3939,7 +4123,7 @@
                     </ul>
                 </div>
                 
-                <div class="tier-card">
+                <div class="tier-card" onclick="showTierDetails(2)" style="cursor: pointer;" title="Click to view tier details">
                     <div class="tier-badge">🎯</div>
                     <div class="tier-name">Next: Power Player</div>
                     <div class="tier-requirements">350 points to unlock</div>
@@ -4141,37 +4325,52 @@
                 </div>
             </div>
 
-            <div class="slots-grid" id="slotsGrid">
-                <!-- Slot machines will be populated by JavaScript -->
+            <div class="tournament-machines">
+                <div class="tournament-machines-title">🎰 Featured Slot Machines</div>
+                <div class="machines-grid">
+                    <div class="machine-card">
+                        <div class="machine-icon">🔥</div>
+                        <div class="machine-name">Hot Hot Hollywoodbets</div>
+                        <div class="machine-status">Active</div>
+                    </div>
+                    <div class="machine-card">
+                        <div class="machine-icon">🍭</div>
+                        <div class="machine-name">Sweet Bonanza</div>
+                        <div class="machine-status">Active</div>
+                    </div>
+                    <div class="machine-card">
+                        <div class="machine-icon">🏜️</div>
+                        <div class="machine-name">Sahara Riches</div>
+                        <div class="machine-status">Active</div>
+                    </div>
+                    <div class="machine-card">
+                        <div class="machine-icon">🦁</div>
+                        <div class="machine-name">African Fortune</div>
+                        <div class="machine-status">Active</div>
+                    </div>
+                    <div class="machine-card">
+                        <div class="machine-icon">🌶️</div>
+                        <div class="machine-name">Chilli Heat</div>
+                        <div class="machine-status">Active</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="spin-controls" id="spinControls">
-                <div class="spin-controls-title">🎰 Spin Controls</div>
-                
-                <div class="spin-amount">
-                    <label>Bet Amount:</label>
-                    <input type="number" class="spin-input" id="spinInput" placeholder="Enter points" min="5" max="100">
+            <div class="tournament-info-footer">
+                <div class="info-card">
+                    <div class="info-icon">🎯</div>
+                    <div class="info-text">
+                        <div class="info-title">How to Participate</div>
+                        <div class="info-desc">Earn points by playing featured slot machines</div>
+                    </div>
                 </div>
-                
-                <div class="spin-quick-buttons">
-                    <button class="spin-quick" onclick="setSpinAmount(5)">5</button>
-                    <button class="spin-quick" onclick="setSpinAmount(10)">10</button>
-                    <button class="spin-quick" onclick="setSpinAmount(25)">25</button>
-                    <button class="spin-quick" onclick="setSpinAmount(50)">50</button>
+                <div class="info-card">
+                    <div class="info-icon">🏆</div>
+                    <div class="info-text">
+                        <div class="info-title">Tournament Prize</div>
+                        <div class="info-desc">Winner receives 2,500 bonus points</div>
+                    </div>
                 </div>
-
-                <button class="spin-button" id="spinSlotButton" onclick="spinSlotMachine()" disabled>
-                    🎰 SPIN TO WIN!
-                </button>
-            </div>
-
-            <div class="tournament-actions">
-                <button class="join-tournament-btn" id="joinTournamentBtn" onclick="joinSlotsTournament()">
-                    🎯 Join Tournament
-                </button>
-                <button class="leave-tournament-btn" id="leaveTournamentBtn" onclick="leaveSlotsTournament()" style="display: none;">
-                    🚪 Leave Tournament
-                </button>
             </div>
         </div>
     </div>
@@ -4702,35 +4901,99 @@
         }
 
         function showTierDetails(tierId) {
+            // Ensure tier exists and modal elements are available
+            if (!tiers[tierId]) {
+                console.error('Tier not found:', tierId);
+                return;
+            }
+            
             const tier = tiers[tierId];
             const modal = document.getElementById('modal');
             const modalTitle = document.getElementById('modalTitle');
             const modalBody = document.getElementById('modalBody');
             
-            modalTitle.textContent = `Tier ${tierId}: ${tier.name}`;
+            // Check if modal elements exist
+            if (!modal || !modalTitle || !modalBody) {
+                console.error('Modal elements not found');
+                return;
+            }
+            
+            // Reset modal content class to default
+            const modalContent = modal.querySelector('.modal-content');
+            if (modalContent) {
+                modalContent.className = 'modal-content';
+            }
+            
+            modalTitle.textContent = `${tier.icon} ${tier.name}`;
+            
+            // Calculate points needed or status
+            let statusSection = '';
+            if (tierId > userData.currentTier) {
+                const pointsNeeded = tier.minPoints - (userData.points || 0);
+                statusSection = `
+                    <div style="margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-radius: 15px; text-align: center; border-left: 4px solid #ff9800;">
+                        <div style="font-size: 18px; font-weight: bold; color: #e65100; margin-bottom: 5px;">
+                            ${pointsNeeded} points needed
+                        </div>
+                        <div style="color: #bf360c; font-size: 14px;">
+                            Keep earning to unlock this tier!
+                        </div>
+                    </div>`;
+            } else if (tierId === userData.currentTier) {
+                statusSection = `
+                    <div style="margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-radius: 15px; text-align: center; border-left: 4px solid #4caf50;">
+                        <div style="font-size: 18px; font-weight: bold; color: #2e7d32; margin-bottom: 5px;">
+                            ✓ Current Tier
+                        </div>
+                        <div style="color: #1b5e20; font-size: 14px;">
+                            You're enjoying all these benefits!
+                        </div>
+                    </div>`;
+            } else {
+                statusSection = `
+                    <div style="margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-radius: 15px; text-align: center; border-left: 4px solid #4caf50;">
+                        <div style="font-size: 18px; font-weight: bold; color: #2e7d32; margin-bottom: 5px;">
+                            ✓ Tier Unlocked
+                        </div>
+                        <div style="color: #1b5e20; font-size: 14px;">
+                            You've surpassed this tier level!
+                        </div>
+                    </div>`;
+            }
             
             modalBody.innerHTML = `
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <div style="font-size: 60px; margin-bottom: 10px;">${tier.icon}</div>
-                    <p style="color: #666;">Minimum ${tier.minPoints} points required</p>
+                <div style="text-align: center; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 15px;">
+                    <div style="font-size: 80px; margin-bottom: 15px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));">${tier.icon}</div>
+                    <h2 style="color: #764ba2; margin-bottom: 10px; font-size: 28px;">${tier.name}</h2>
+                    <div style="background: rgba(118, 75, 162, 0.1); padding: 8px 16px; border-radius: 20px; display: inline-block;">
+                        <span style="color: #764ba2; font-weight: bold;">Minimum ${tier.minPoints.toLocaleString()} points required</span>
+                    </div>
                 </div>
-                <h3 style="margin-bottom: 15px; color: #764ba2;">Benefits:</h3>
-                <ul style="list-style: none; padding: 0;">
-                    ${tier.benefits.map(benefit => 
-                        `<li style="padding: 8px 0; padding-left: 25px; position: relative;">
-                            <span style="position: absolute; left: 0; color: #4caf50;">✓</span>
-                            ${benefit}
-                        </li>`
-                    ).join('')}
-                </ul>
-                ${tierId > userData.currentTier ? 
-                    `<div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 10px; text-align: center;">
-                        <strong>${tier.minPoints - userData.points}</strong> more points needed to unlock this tier
-                    </div>` : 
-                    tierId === userData.currentTier ? 
-                    '<div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px; text-align: center; color: #4caf50;">✓ This is your current tier</div>' :
-                    '<div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px; text-align: center; color: #4caf50;">✓ Tier unlocked</div>'
-                }
+                
+                <div style="margin-bottom: 25px;">
+                    <h3 style="margin-bottom: 20px; color: #764ba2; font-size: 20px; display: flex; align-items: center;">
+                        <span style="margin-right: 10px;">🎁</span>
+                        Tier Benefits
+                    </h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 15px;">
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            ${tier.benefits.map(benefit => 
+                                `<li style="padding: 12px 0; padding-left: 35px; position: relative; border-bottom: 1px solid #e9ecef; font-size: 16px;">
+                                    <span style="position: absolute; left: 0; color: #4caf50; font-size: 18px; top: 10px;">✓</span>
+                                    ${benefit}
+                                </li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                </div>
+                
+                ${statusSection}
+                
+                <div style="margin-top: 25px; text-align: center;">
+                    <button class="btn btn-primary" onclick="closeModal()" style="min-width: 120px;">
+                        Got it!
+                    </button>
+                </div>
             `;
             
             modal.classList.add('active');
@@ -5048,33 +5311,10 @@
                                     <p style="color: #666; font-size: 14px; margin: 5px 0;">Race to 10,000 points and earn double points!</p>
                                     <p style="color: #764ba2; font-size: 12px; font-weight: bold;">⚡ Double points for 15 minutes after playing</p>
                                 </div>
-                                <button class="btn btn-secondary" onclick="openExternalSlotsTournament()">Join</button>
+                                <button class="btn btn-secondary" onclick="showSlotsTournament()">View Leaderboard</button>
                             </div>
                         </div>
                         
-                        <div style="border: 2px solid #ffd700; padding: 15px; border-radius: 10px; background: rgba(255, 215, 0, 0.1);">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <div style="font-size: 24px;">🎁</div>
-                                    <strong>Prize Drops</strong>
-                                    <p style="color: #666; font-size: 14px; margin: 5px 0;">Win amazing prizes just by betting!</p>
-                                    <p style="color: #ffd700; font-size: 12px; font-weight: bold;">🏆 Air fryers, laptops, headphones & more!</p>
-                                </div>
-                                <button class="btn btn-secondary" onclick="triggerDemoPrizeDrop()" style="background: #ffd700; color: #333;">Demo</button>
-                            </div>
-                        </div>
-                        
-                        <div style="border: 2px solid #4caf50; padding: 15px; border-radius: 10px; background: rgba(76, 175, 80, 0.1);">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <div style="font-size: 24px;">🍀</div>
-                                    <strong>Lucky Pick</strong>
-                                    <p style="color: #666; font-size: 14px; margin: 5px 0;">Pre-selected bets for novice bettors</p>
-                                    <p style="color: #4caf50; font-size: 12px; font-weight: bold;">🎯 Algorithm picks the best bets for you!</p>
-                                </div>
-                                <button class="btn btn-secondary" onclick="showLuckyPick()" style="background: #4caf50; color: white;">Try Now</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             `;
@@ -5460,8 +5700,28 @@
             // Update challenge progress for tournament participation
             updateChallengeProgress('tournament');
             
-            // Redirect externally instead of showing in-app tournament for betting
-            openExternalSlotsTournament();
+            // Show internal leaderboard instead of external betting
+            const overlay = document.getElementById('slotsTournamentOverlay');
+            if (!overlay) {
+                console.error('Slots tournament overlay not found');
+                return;
+            }
+            
+            // Initialize tournament participants if not already done
+            if (slotsTournamentState.participants.length === 0) {
+                initializeTournamentParticipants();
+            }
+            
+            // Update leaderboard display
+            updateLeaderboard();
+            updateTournamentProgress();
+            
+            // Start countdown if not already running
+            if (!slotsTournamentState.countdownInterval) {
+                startTournamentCountdown();
+            }
+            
+            overlay.classList.add('active');
         }
 
         function closeSlotsTournament() {
@@ -6917,6 +7177,40 @@
             if (!faqSection.classList.contains('collapsed')) {
                 updateChallengeProgress('faq');
             }
+        }
+
+        function scrollToFAQ() {
+            const faqSection = document.getElementById('faqSection');
+            if (!faqSection) {
+                console.error('FAQ section not found');
+                return;
+            }
+            
+            // Expand FAQ section if it's collapsed
+            if (faqSection.classList.contains('collapsed')) {
+                faqSection.classList.remove('collapsed');
+                
+                // Update challenge progress for FAQ exploration
+                if (typeof updateChallengeProgress === 'function') {
+                    updateChallengeProgress('faq');
+                }
+            }
+            
+            // Smooth scroll to FAQ section
+            faqSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start',
+                inline: 'nearest'
+            });
+            
+            // Add a subtle highlight effect
+            faqSection.style.transition = 'box-shadow 0.3s ease';
+            faqSection.style.boxShadow = '0 0 20px rgba(118, 75, 162, 0.3)';
+            
+            // Remove highlight after 2 seconds
+            setTimeout(() => {
+                faqSection.style.boxShadow = '';
+            }, 2000);
         }
 
         function openHollyStore() {
